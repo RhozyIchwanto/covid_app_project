@@ -1,9 +1,12 @@
 import 'package:covid_app_project/models/data_covid.dart';
 import 'package:covid_app_project/screen/detail_provonsi.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 
 class ProvinsiItem extends StatelessWidget {
   ProvinsiItem({Key? key, required this.dataprovinsi}) : super(key: key);
+
+  final formatter = intl.NumberFormat.decimalPattern();
 
   DataCovid dataprovinsi;
 
@@ -42,7 +45,8 @@ class ProvinsiItem extends StatelessWidget {
               height: 5,
             ),
             Text(
-              dataprovinsi.jumlahKasus.toString(),
+              formatter.format(dataprovinsi.jumlahKasus),
+              // dataprovinsi.jumlahKasus.toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.red,

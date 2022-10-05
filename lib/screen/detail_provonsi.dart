@@ -2,11 +2,13 @@
 
 import 'package:covid_app_project/models/data_covid.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 
 class DetailProvinsi extends StatelessWidget {
   DetailProvinsi({Key? key, required this.provinsi}) : super(key: key);
   DataCovid provinsi;
 
+  final formatter = intl.NumberFormat.decimalPattern();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,16 +35,16 @@ class DetailProvinsi extends StatelessWidget {
               height: 15,
             ),
             RowGrid(
-              jumlahKasus1: provinsi.jumlahKasus.toString(),
-              jumlahKasus2: provinsi.jumlahSembuh.toString(),
+              jumlahKasus1: formatter.format(provinsi.jumlahKasus),
+              jumlahKasus2: formatter.format(provinsi.jumlahSembuh),
               namaKasus1: "Jumlah Kasus",
               namaKasus2: "Jumlah Sembuh",
               color1: Colors.red,
               color2: Colors.green,
             ),
             RowGrid(
-              jumlahKasus1: provinsi.jumlahMeninggal.toString(),
-              jumlahKasus2: provinsi.jumlahDirawat.toString(),
+              jumlahKasus1: formatter.format(provinsi.jumlahMeninggal),
+              jumlahKasus2: formatter.format(provinsi.jumlahDirawat),
               namaKasus1: "Jumlah Meninggal",
               namaKasus2: "Jumlah Dirawat",
               color1: Colors.orange,
@@ -62,20 +64,55 @@ class DetailProvinsi extends StatelessWidget {
               height: 10,
             ),
             Column(
-              children: provinsi.kelompokUmur!.map((data) {
-                return Card(
-                  child: ListTile(
-                    title: Text('${data['key']} Tahun'),
-                    trailing: Text(
-                      data['doc_count'].toString(),
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
+              children: provinsi.kelompokUmur!.map(
+                (data) {
+                  return Card(
+                    child: ListTile(
+                      title: Text('${data['key']} Tahun'),
+                      trailing: Text(
+                        formatter.format(data['doc_count']),
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                },
+              ).toList(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Jenis Kelamin",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: provinsi.jenisKelamin!.map(
+                (data) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        data['key'],
+                      ),
+                      trailing: Text(
+                        formatter.format(data['doc_count']),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
             )
           ],
         ),
